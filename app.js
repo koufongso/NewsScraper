@@ -14,7 +14,7 @@ mongoose.connection.once("open", function () {
     console.log("mongodb connection has been made")
 })
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 // middleware setup
