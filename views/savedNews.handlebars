@@ -1,3 +1,35 @@
+<!-- Modal -->
+<div class="modal fade" id="commentsModal" tabindex="-1" role="dialog" aria-labelledby="commentsModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="commentsModalTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+        <div class="container">
+            <div class="modal-body" id="comments" style="height: 300px; overflow:auto">
+            Be the first one to leave a comment!
+            </div>
+            <div class="form-group">
+                <label for="commentFormControlTextarea"></label>
+                <textarea class="form-control" id="commentFormControlTextarea" rows="3" placeholder="You can leave a comment here ..."></textarea>
+            </div>
+    
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btn-add-comment">Add Your Comment</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <div class="container" id="savedNews">
     <div class="card">
         {{#if data}}
@@ -7,6 +39,7 @@
                         <h5 class="card-title">{{this.headline}}</h5>
                         <p class="card-text">{{this.summary}}</p>
                         <a href="{{this.url}}" class="btn btn-primary" target="_blank">Read Original Article</a>
+                        <button type="button" class="btn btn-info btn-comment-news" data-id="{{this._id}}" data-toggle="modal" data-target="#commentsModal">Comment</button>
                         <button type="button" class="btn btn-danger btn-unsave-news" data-id="{{this._id}}">Unsave</button>
                     </div>
                 </div>

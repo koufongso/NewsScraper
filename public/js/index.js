@@ -1,6 +1,9 @@
 $(document).on("click", "#scrapeNews", scrapeNews);
 $(document).on("click", ".btn-save-news", saveNews);
 $(document).on("click", ".btn-unsave-news", unsaveNews);
+$(document).on("click", ".btn-comment-news", commentNews);
+$(document).on("click", "#btn-add-comment", addComment);
+$(document).on("click", ".btn-delete-comment", deleteComment);
 
 let defaultURL = "https://nytimes.com";
 
@@ -23,6 +26,15 @@ function newsCard(headline, summary, url) {
                     <p class="card-text">${summary}</p>
                     <a href="${url}" class="btn btn-primary" target="_blank">Read Original Article</a>
                     <button type="button" class="btn btn-success btn-save-news">Save</button>
+                </div>
+            </div>`);
+}
+
+function newsComment(id, body) {
+    return (`<div class="card">
+                <div class="card-body">
+                    <p class="card-text">${body}</p>
+                    <button type="button" class="btn btn-link btn-delete-comment" style="float: right;" data-id="${id}">Delete</button>
                 </div>
             </div>`);
 }
@@ -61,6 +73,64 @@ function unsaveNews() {
                 $($(this).closest(".card")).remove();
             } else {
                 alert("This news doesn't exist in the database!")
+            }
+        });
+}
+
+
+function commentNews() {
+    parent = $(this).parent();
+    let headline = $(parent).children("h5").text().trim();
+    id = $(this).attr("data-id");
+    $("#commentsModalTitle").attr("data-id", id);
+    $("#commentsModalTitle").text(headline);
+    getComments(id);
+}
+
+function addComment() {
+    id = $("#commentsModalTitle").attr("data-id");
+    let title = $("#commentsModalTitle").text().trim();
+    let body = $("#commentFormControlTextarea").val().trim();
+    let comment = {
+        title: title,
+        body: body
+    }
+    $.post(`/api/addComment/${id}`, comment, (response) => {
+        if (response) {
+            alert("Added comment!");
+            $("#commentFormControlTextarea").val("");
+            getComments(id);
+        }
+    })
+}
+
+function getComments(id) {
+    $.get(`/api/getComments/${id}`, (response) => {
+        if (response) {
+            $("#comments").empty();
+            let comments = response.comments;
+            for (let i = 0; i < comments.length; i++) {
+                let temp = comments[i];
+                $("#comments").append(`<p>${newsComment(temp._id, temp.body)}</p>`);
+            }
+        }
+    });
+}
+
+
+function deleteComment() {
+    let newsId = $("#commentsModalTitle").attr("data-id");
+    let commentId = $(this).attr("data-id");
+    $.ajax({
+        url: `/api/deleteComment/${newsId}/${commentId}`,
+        type: 'DELETE',
+    }, { nesId: newsId })
+        .then((response) => {
+            if (response) {
+                alert("Comment deleted!")
+                $($(this).closest(".card")).remove();
+            } else {
+                alert("This comment doesn't exist in the database!")
             }
         });
 }
