@@ -1,7 +1,20 @@
 <div class="container" id="savedNews">
     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Your currently don't have any saved news...</h5>
-        </div>
+        {{#if data}}
+            {{#each data}}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.headline}}</h5>
+                        <p class="card-text">{{this.summary}}</p>
+                        <a href="{{this.url}}" class="btn btn-primary" target="_blank">Read Original Article</a>
+                        <button type="button" class="btn btn-danger btn-unsave-news" data-id="{{this._id}}">Unsave</button>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+            <div class="card-body">
+                <h5 class="card-title">Your currently don't have any saved news...</h5>
+            </div>
+        {{/if}}
     </div>
 </div>

@@ -51,7 +51,33 @@ router.post("/save", (req, res) => {
             console.log(err);
             res.send(null);
         });
-})
+});
 
+
+router.get("/getSaved", (req, res) => {
+    db.News.find({})
+        .then((dbNews) => {
+            res.json(dbNews);
+        })
+        .catch(function (err) {
+            // If an error occurred, log it
+            console.log(err);
+            res.send(null);
+        });
+});
+
+
+router.delete("/unsave/:id", (req, res) => {
+    db.News.deleteOne({ _id: req.params.id })
+        .then((dbNews) => {
+            // console.log(dbNews)
+            res.json(dbNews);
+        })
+        .catch(function (err) {
+            // If an error occurred, log it
+            console.log(err);
+            res.send(null);
+        });
+})
 
 module.exports = router;
