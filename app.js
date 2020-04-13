@@ -8,7 +8,8 @@ const mongoose = require("mongoose");
 // const cheerio = require("cheerio");
 
 // var db = require("./models");
-mongoose.connect("mongodb://localhost/NewsScraper", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/NewsScraper";
+mongoose.connect(MONGODB_URI,{ useNewUrlParser: true });
 mongoose.connection.once("open", function () {
     console.log("mongodb connection has been made")
 })
