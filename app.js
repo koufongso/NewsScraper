@@ -8,6 +8,10 @@ const mongoose = require("mongoose");
 // const cheerio = require("cheerio");
 
 // var db = require("./models");
+mongoose.connect("mongodb://localhost/NewsScraper", { useNewUrlParser: true });
+mongoose.connection.once("open",function(){
+    console.log("mongodb connection has been made")
+})
 
 const PORT = 3000;
 const app = express();

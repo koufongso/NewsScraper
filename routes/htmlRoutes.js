@@ -5,6 +5,7 @@ router.get("/",(req,res)=>{
 })
 
 router.get("/saved",(req,res)=>{
+    
     res.render("savedNews");
 })
 
